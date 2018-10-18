@@ -1,0 +1,18 @@
+<%= image_tag("brew_store.png", id: "brew-img")%>
+<h1 id="details-header"><%= @product.name %> Details</h1>
+<h2 id="product-name"><%= @product.name %></h2>
+<%= image_tag(@product.image_url, id:"product-img") %>
+<h3 id="product-price">Price: $<%= @product.price %></h3>
+<p id="product-description"><%= @product.description %></p>
+
+<h4><%= link_to("Edit Product", "/products/#{@product.id}/edit") %></h4>
+<h4><%= link_to("Delete Product", "/products/#{@product.id}", method: :delete, data: { confirm: "Are you sure you want to delete #{@product.name}?"}) %></h4>
+
+
+<%= form_tag("/carted_products", method: :post) do %>
+  <label for="amount">Enter Amount</label>
+  <input type="number" name="amount" placeholder="How many?">
+  
+  <input type="hidden" name="product_id" value="<%= @product.id %>">
+  <input type="submit" value="Add to Cart">
+<% end %>

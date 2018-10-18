@@ -1,0 +1,21 @@
+<%= image_tag("brew_store.png", id: "brew-img")%>
+<h1 id="edit-header">Edit Product</h1>
+
+<%= form_tag("/products/#{@product.id}", method: :put) do %>
+  <label for="name">Enter Product Name:</label>
+  <input type="text" id="name" name="name" value="<%= @product.name %>">
+  <br>
+  <label for="description">Enter Product Description:</label>
+  <textarea id="description" name="description" cols="60" rows="20" style="resize: none"><%= @product.description%></textarea>
+  <br>
+  <label for="price">Enter Price:</label>
+  <input type="number" name="price" value="<%= @product.price %>">
+  <br>
+  <label for="image_url">Post Image:</label>
+  <input type="text" name="image_url" value="<%= @product.image_url%>">
+  <br>
+  <input type="submit" value="Update Product">
+  <br>
+  <h4><%= link_to("Home Page", "/products/") %></h4>
+
+<% end %>

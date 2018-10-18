@@ -1,0 +1,8 @@
+<%= image_tag("brew_store.png", id: "brew-img")%>
+<!-- <h1 id="site-name">One Stop Brew Shop</h1> -->
+<% @products.each do |product| %>
+    <h2 id="product-name"><%= product.name %></h2>
+    <p id="product-description"><%= product.description %></p>
+    <p id="product-price">$<%= product.price%></p>
+    <h5><%= link_to("More Details", "/products/#{product.id}") %></h5>
+<% end %>

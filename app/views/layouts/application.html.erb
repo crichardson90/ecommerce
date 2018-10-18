@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EcommerceApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body id="background-color">
+    <div>
+      <ul id="my-navbar">
+        <li id="cart-link"><%= link_to("Your Cart", "/carted_products") %></li>
+        <li><%= link_to("Add New Product", "/products/new") %></li>
+        <li><%= link_to("All Products", "/products") %></li>
+        <li><%= link_to("Orders", "/orders") %></li>
+      </ul>
+    </div>
+
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+<h2>All Orders</h2>
+
+<% @orders.each do |order| %>
+<%= link_to("Order ID: #{order.id}", "/orders/#{order.id}") %>
+<% end %>
