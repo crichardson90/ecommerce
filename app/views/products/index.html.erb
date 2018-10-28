@@ -1,5 +1,11 @@
 <%= image_tag("brew_store.png", id: "brew-img")%>
 <!-- <h1 id="site-name">One Stop Brew Shop</h1> -->
+
+<%= form_tag("/products", method: :get) do %>
+  <input type="text" name="category" value="<%= params[:category] %>">
+  <input type="submit" value="Search for a Category">
+<% end %>
+
 <% @products.each do |product| %>
     <h2 id="product-name"><%= product.name %></h2>
     <p id="product-description"><%= product.description %></p>

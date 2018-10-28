@@ -1,21 +1,66 @@
 <%= image_tag("brew_store.png", id: "brew-img")%>
 <h1 id="edit-header">Edit Product</h1>
 
+<% if @product.errors.any? %>
+  <div id="error-explanation">
+    <h2><%= pluralize(@product.errors.count, "error") %> prevented this Product from being saved:</h2>
+
+<ul>
+  <% @product.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+</ul>
+  </div>
+<% end %>
+
+
 <%= form_tag("/products/#{@product.id}", method: :put) do %>
   <label for="name">Enter Product Name:</label>
   <input type="text" id="name" name="name" value="<%= @product.name %>">
+
   <br>
+
+  <%= label_tag(:category_ids, "Select a category for your product") %>
+  <br>
+  <%= select_tag(:category_ids, options_from_collection_for_select(@categories, :id, :name, @product.category_ids), multiple: true, id: "select-tag") %>
+  
+  <br>
+  
   <label for="description">Enter Product Description:</label>
   <textarea id="description" name="description" cols="60" rows="20" style="resize: none"><%= @product.description%></textarea>
+  
   <br>
+  
   <label for="price">Enter Price:</label>
   <input type="number" name="price" value="<%= @product.price %>">
+  
   <br>
+  
   <label for="image_url">Post Image:</label>
   <input type="text" name="image_url" value="<%= @product.image_url%>">
+  
   <br>
+  
   <input type="submit" value="Update Product">
+  
   <br>
+  
   <h4><%= link_to("Home Page", "/products/") %></h4>
 
 <% end %>
+
+<script type="text/javascript">
+  var tagSelectOptions = document.querySelectorAll('#select-tag option')
+
+  for(var i = 0; i < tagSelectOptions.length; i++) {
+    tagSelectOptions[i].addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      var option = e.target;
+      if (option.selected) {
+        option.selected = false;
+      } else {
+        option.selected = true;
+      }
+    })
+  }
+</script>

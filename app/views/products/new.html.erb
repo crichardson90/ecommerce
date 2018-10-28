@@ -1,24 +1,43 @@
 <%= image_tag("brew_store.png", id: "brew-img")%>
 <h1 id="new-header">New Product</h1>
 
+<% if @product.errors.any? %>
+  <div id="error-explanation">
+    <h2><%= pluralize(@product.errors.count, "error") %> prevented this Product from being saved:</h2>
+
+<ul>
+  <% @product.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+</ul>
+  </div>
+<% end %>
+
+
 <%= form_tag("/products", method: :post) do %>
   <label for="name">Enter Product Name:</label>
-  <input type="text" name="name", placeholder="Enter Product Here">
+  <input type="text" name="name" value="<%= @product.name %>", placeholder="Enter Product Here">
   
+  <br>
+
+  <%= label_tag(:category_id, "Select a category for your product") %>
+  <br>
+  <%= select_tag(:category_ids, options_from_collection_for_select(@categories, :id, :name), multiple: true, id: "select-tag") %>
+
   <br>
   
   <label for="description">Product Description:</label>
-  <textarea id="description" name="description" placeholder="Enter product description here" cols="60" rows="20" style="resize: none"></textarea>
+  <textarea id="description" name="description" placeholder="Enter product description here" cols="60" rows="20" style="resize: none"><%= @product.description %></textarea>
   
   <br>
   
   <label for="price"> Enter Price:</label>
-  <input type="number" id="price" name="price" placeholder="Product Price">
+  <input type="number" id="price" name="price" value="<%= @product.price %>"placeholder="Product Price">
   
   <br>
   
   <label for="image_url">Post Image:</label>
-  <input type="text" name="image_url" placeholder="Post image url">
+  <input type="text" name="image_url" value="<%= @product.image_url %>" placeholder="Post image url">
   
   <br>
   
@@ -27,3 +46,19 @@
   <br>
   
 <% end %>
+
+<script type="text/javascript">
+  var tagSelectOptions = document.querySelectorAll('#select-tag option')
+
+  for(var i = 0; i < tagSelectOptions.length; i++) {
+    tagSelectOptions[i].addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      var option = e.target;
+      if (option.selected) {
+        option.selected = false;
+      } else {
+        option.selected = true;
+      }
+    })
+  }
+</script>
