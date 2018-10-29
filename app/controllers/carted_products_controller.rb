@@ -1,4 +1,5 @@
 class CartedProductsController < ApplicationController
+  before_action :authenticate_user!
   def index
     @carted_products = CartedProduct.where(is_removed: false, is_purchased: false)
   end

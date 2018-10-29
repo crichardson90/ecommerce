@@ -1,6 +1,7 @@
 <%= image_tag("brew_store.png", id: "brew-img")%>
 <h1 id="edit-header">Edit Product</h1>
 
+
 <% if @product.errors.any? %>
   <div id="error-explanation">
     <h2><%= pluralize(@product.errors.count, "error") %> prevented this Product from being saved:</h2>

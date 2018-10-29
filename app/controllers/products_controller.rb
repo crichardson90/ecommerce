@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!
   def index
     if params[:category] && params[:category].length > 2
       @category_name = params[:category]
