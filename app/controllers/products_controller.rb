@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_admin!, except: [:index, :show]
   def index
     if params[:category] && params[:category].length > 2
       @category_name = params[:category]
@@ -38,6 +38,7 @@ class ProductsController < ApplicationController
     if @product.save
       @product.create_categories(params[:category_ids]) if params[:category_ids]
       redirect_to "/products"
+      flash[:success] = "You have successfully added a New Product!"
     else
       @categories = Category.all
       render 'new'
@@ -58,6 +59,7 @@ class ProductsController < ApplicationController
 
       @product.update_categories(params[:category_ids]) if params[:category_ids]
       redirect_to "/products/#{@product.id}"
+      flash[:success] = "You have successfully edited your product!"
     else
       @categories = Category.all
       render 'edit'

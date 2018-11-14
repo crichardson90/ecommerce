@@ -1,15 +1,16 @@
 class CartedProductsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @carted_products = CartedProduct.where(is_removed: false, is_purchased: false)
+    @carted_products = CartedProduct.where(is_removed: false, is_purchased: false, user_id: current_user.id)
   end
 
   def create
-    carted_product = CartedProduct.create(
+    carted_product = CartedProduct.new(
                             amount: params[:amount],
                             product_id: params[:product_id],
                             is_purchased: false,
-                            is_removed: false
+                            is_removed: false,
+                            user_id: current_user.id
                             )
   if carted_product.save
     flash[:success] = "Product added to Cart"

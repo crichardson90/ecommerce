@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   def index
-    @orders = Order.all
+    @orders = current_user.orders
   end
 
   def create
@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
     my_order = Order.new
 
   if products_in_cart.any?
-    my_order = Order.create
+    my_order = Order.create(user_id: current_user.id)
     products_in_cart.update_all(is_purchased: true, order_id: my_order.id)
     flash[:success] = "Thank you for your order!"
   else

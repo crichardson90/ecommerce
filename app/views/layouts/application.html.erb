@@ -10,36 +10,91 @@
   </head>
 
   <body id="background-color">
-    <div>
-      <ul id="my-navbar">
-        <li id="cart-link"><%= link_to("Your Cart", "/carted_products") %></li>
-        <li><%= link_to("Add New Product", "/products/new") %></li>
-        <li><%= link_to("All Products", "/products") %></li>
-        <li><%= link_to("Orders", "/orders") %></li>
-      </ul>
-    </div>
-
-    <% flash.each do |key, msg| %>
-    <%= content_tag :div, msg, id: key %>
+  
+  <% if user_signed_in? %>
+    Logged in as: <strong><%= current_user.username %></strong>
   <% end %>
 
 
-  <% if user_signed_in? %>
-    Logged in as <strong><%= current_user.username %></strong>
-    <%= link_to('Edit Profile', edit_user_registration_path) %> | 
-    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-<% else %>
-    <%= link_to "Sign up", new_user_registration_path %> |
-    <%= link_to "Login", new_user_session_path %>
-<% end %>
 
-  
    
-   <p class="notice"><%= notice %></p>
-  <!--  <p class="alert"><%= alert %></p> -->
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item <%= 'active' if current_page?('/products/') || current_page?('/') %>">
+        <a class="nav-link" href="/products">All Products<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?("/products") %></a>
+      </li>
+      
+ 
+         <% if user_signed_in? %>
+          <li class="nav-item <%= 'active' if current_page?(edit_user_registration_path) %>">
+            <%= link_to(edit_user_registration_path, class: "nav-link") do %>
+                Edit Profile<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?(edit_user_registration_path) %>
+        <% end %>
+          </li>
+           
+           <li class="nav-item <%= 'active' if current_page?(destroy_user_session_path) %>">
+             <%= link_to(destroy_user_session_path, class: "nav-link", method: :delete) do %>
+                Logout<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?(destroy_user_session_path) %>
+          <% end %>
+           </li>
+           
+           <li class="nav-item <%= 'active' if current_page?('/products/new') %>">
+             <%= link_to('/products/new', class: "nav-link") do %>
+                New Product<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?('/products/new') %>
+          <% end %>
+           </li>
+
+            <li class="nav-item <%= 'active' if current_page?('/orders') %>">
+             <%= link_to('/orders', class: "nav-link") do %>
+                Your Orders<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?('/orders') %>
+          <% end %>
+           </li>
+
+          <li class="nav-item <%= 'active' if current_page?('/carted_products') %>">
+             <%= link_to('/carted_products', class: "nav-link") do %>
+                Cart<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?('/carted_products') %>
+          <% end %>
+           </li>
+        
+        <% else %>
+          
+          <li class="nav-item <%= 'active' if current_page?(new_user_registration_path) %>">
+            <%= link_to(new_user_registration_path, class: "nav-link") do %>
+                Sign Up<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?(new_user_registration_path) %>
+          <% end %> 
+          </li>
+           
+           <li class="nav-item <%= 'active' if current_page?(new_user_session_path) %>">
+             <%= link_to(new_user_session_path, class: "nav-link") do %>
+                Login<%= (content_tag :span, "(current)", :class => "sr-only") if current_page?(new_user_session_path) %>
+        <% end %>
+          </li>
+        <% end %>
 
 
-    <%= yield %>
+    </ul>
+    
+     <%= form_tag("/products", method: :get, class: "form-inline my-2 my-lg-0") do %>
+      <input type="search" class="form-control mr-sm-2" name="category" placeholder="Search" aria-label="Search" value="<%= params[:category] %>">
+      <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Search">
+    <% end %>
+  </div>
+</nav>
 
-   </body>
+
+  <div class="container">
+  <% flash_messages %>
+
+<%= yield %>
+  </div>
+  
+  </body>
 </html>
